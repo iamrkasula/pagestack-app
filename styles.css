@@ -1,0 +1,105 @@
+/* PageStack website (blueprint phase 7, spec/09): pale aubergine paper, the icon's vermilion folded corner,
+   a rounded type face (system rounded, no web fonts), tilted real screens and a fanned stack of tool pages. */
+:root {
+  --paper: #f3ecf6;
+  --sheet: #ffffff;
+  --ink: #2a1431;
+  --ink-2: #5e4a68;
+  --accent: #74308e;
+  --accent-deep: #43204f;
+  --corner: #e2452f;
+  --corner-fold: #b8321f;
+  --rule: #e0d3e6;
+  --shadow: 0 24px 48px -18px rgba(67, 32, 79, .38);
+  --round: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, sans-serif;
+  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #1a0f1e; --sheet: #2a1a30; --ink: #f5ecf8; --ink-2: #c9b4d3; --accent: #d3a5ea;
+    --accent-deep: #f5ecf8; --rule: #3c2844; --shadow: 0 24px 48px -18px rgba(0, 0, 0, .6); color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.6 var(--body); overflow-x: hidden; }
+a { color: var(--accent); }
+img { max-width: 100%; display: block; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-left)); }
+
+/* The folded corner, as on the app icon. */
+.corner { position: absolute; top: 0; right: 0; width: clamp(72px, 14vw, 180px); aspect-ratio: 1; pointer-events: none; }
+.corner::before, .corner::after { content: ""; position: absolute; inset: 0; }
+.corner::before { background: var(--corner); clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.corner::after { background: var(--corner-fold); clip-path: polygon(0 0, 100% 100%, 0 100%); }
+
+header.top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
+.brand { display: flex; align-items: center; gap: 10px; font: 700 20px/1 var(--round); color: var(--ink); text-decoration: none; }
+.brand img { width: 36px; height: 36px; border-radius: 9px; }
+nav a { margin-left: 18px; color: var(--ink-2); text-decoration: none; font-weight: 500; }
+nav a:hover { color: var(--accent); }
+header.top { padding-right: clamp(60px, 12vw, 150px); }
+
+/* Hero: stacked verbs left, tilted phone right. */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 32px; align-items: center; padding: 32px 0 72px; }
+.verbs { font: 800 clamp(48px, 9vw, 104px)/.95 var(--round); letter-spacing: -.02em; margin: 0; color: var(--accent-deep); }
+.verbs span { display: block; }
+.verbs span:nth-child(2) { color: var(--accent); }
+.verbs span:nth-child(3) { color: var(--corner); }
+.lede { font-size: 20px; color: var(--ink-2); max-width: 32ch; margin: 22px 0 26px; }
+.badge { display: inline-block; font: 700 16px/1 var(--round); padding: 14px 20px; border-radius: 14px; background: #43204f; color: #f8f2fa; text-decoration: none; }
+@media (prefers-color-scheme: dark) { .badge { background: #f5ecf8; color: #2a1431; } }
+.badge small { display: block; font-weight: 500; font-size: 12px; opacity: .8; margin-bottom: 4px; }
+
+.phone { position: relative; width: min(300px, 70vw); margin: 0 auto; border-radius: 44px; padding: 11px; background: #18161c;
+  box-shadow: var(--shadow); transform: rotate(-5deg); }
+.phone img { border-radius: 34px; width: 100%; height: auto; }
+.phone.right { transform: rotate(4deg); }
+
+/* The stack: every tool as a page in a fanned pile. */
+.stack-section { padding: 40px 0 64px; }
+h2 { font: 800 clamp(30px, 5vw, 46px)/1.1 var(--round); margin: 0 0 10px; color: var(--accent-deep); letter-spacing: -.01em; }
+.sub { color: var(--ink-2); margin: 0 0 32px; max-width: 60ch; }
+.stack { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px; }
+.page { position: relative; background: var(--sheet); border-radius: 6px 22px 6px 6px; padding: 18px 16px 16px; box-shadow: var(--shadow);
+  font: 700 18px/1.2 var(--round); transform: rotate(var(--r, 0deg)); }
+.page::after { content: ""; position: absolute; top: 0; right: 0; width: 22px; height: 22px; background: var(--rule);
+  clip-path: polygon(0 0, 100% 100%, 0 100%); border-radius: 0 0 0 4px; }
+.page small { display: block; margin-top: 6px; font: 400 14px/1.4 var(--body); color: var(--ink-2); }
+.page:nth-child(3n+1) { --r: -1.5deg; } .page:nth-child(3n+2) { --r: 1deg; } .page:nth-child(4n) { --r: -.5deg; }
+
+/* Story: one long scroll, a verb and a screen per step. */
+.story { display: grid; gap: 72px; padding: 24px 0 80px; }
+.step { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+.step .word { font: 800 clamp(56px, 10vw, 120px)/.9 var(--round); color: var(--accent); margin: 0; letter-spacing: -.03em; }
+.step p { color: var(--ink-2); font-size: 19px; max-width: 34ch; }
+.step:nth-child(even) .copy { order: 2; }
+
+.privacy-band { background: #43204f; color: #f8f2fa; border-radius: 28px; padding: 40px 32px; margin: 0 0 80px; }
+.privacy-band h2 { color: #f8f2fa; }
+.privacy-band p { color: inherit; opacity: .9; max-width: 62ch; }
+@media (prefers-color-scheme: dark) { .privacy-band { background: #3a2141; } }
+
+/* Documents: privacy, support, terms. */
+main.doc { max-width: 720px; padding: 24px 0 72px; }
+main.doc h1 { font: 800 clamp(36px, 6vw, 52px)/1.05 var(--round); color: var(--accent-deep); margin: 8px 0 6px; }
+main.doc h2 { font-size: 24px; margin: 34px 0 8px; }
+.updated { color: var(--ink-2); font-size: 15px; }
+details { background: var(--sheet); border-radius: 14px; padding: 14px 18px; margin: 10px 0; box-shadow: 0 1px 0 var(--rule); }
+summary { cursor: pointer; font-weight: 600; }
+
+footer { border-top: 1px solid var(--rule); padding: 24px 0 calc(24px + env(safe-area-inset-bottom)); color: var(--ink-2); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 760px) {
+  .hero, .step { grid-template-columns: minmax(0, 1fr); }
+  .step:nth-child(even) .copy { order: 0; }
+  nav a { margin-left: 12px; }
+  .hero { padding-bottom: 48px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .page { transition: transform .2s; }
+  .page:hover { transform: rotate(0) translateY(-4px); }
+}
